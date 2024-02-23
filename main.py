@@ -7,6 +7,11 @@ import login
 import process
 import privateCrypt
 
+'''
+cron: 5 9 * * *
+new Env("i茅台预约")
+'''
+
 DATE_FORMAT = "%m/%d/%Y %H:%M:%S %p"
 TODAY = datetime.date.today().strftime("%Y%m%d")
 logging.basicConfig(level=logging.INFO,
@@ -17,8 +22,8 @@ logging.basicConfig(level=logging.INFO,
 print(r'''
 **************************************
     欢迎使用i茅台自动预约工具
-    作者GitHub：https://github.com/3 9 7 1 7 9 4 5 9
-    vx：L 3 9 7 1 7 9 4 5 9 加好友注明来意
+    由yetio进行改编 https://github.com/yetio
+    感谢原作者GitHub：https://github.com/3 9 7 1 7 9 4 5 9
 **************************************
 ''')
 
