@@ -10,6 +10,7 @@ from encrypt import Encrypt
 import requests
 import hashlib
 import logging
+from notify import send
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
@@ -244,13 +245,14 @@ def act_params(shop_id: str, item_id: str):
 
 # 消息推送
 def send_msg(title, content):
-    if config.PUSH_TOKEN is None:
-        return
-    url = 'http://www.pushplus.plus/send'
-    r = requests.get(url, params={'token': config.PUSH_TOKEN,
-                                  'title': title,
-                                  'content': content})
-    logging.info(f'通知推送结果：{r.status_code, r.text}')
+    #if config.PUSH_TOKEN is None:
+    #    return
+    #url = 'http://www.pushplus.plus/send'
+    #r = requests.get(url, params={'token': config.PUSH_TOKEN,
+    #                              'title': title,
+    #                              'content': content})
+    send(title,content)
+    #logging.info(f'通知推送结果：{r.status_code, r.text}')
 
 
 # 核心代码，执行预约
@@ -336,3 +338,32 @@ def getUserEnergyAward(mobile: str):
     # response.json().get('message') if '无法领取奖励' in response.text else "领取奖励成功"
     logging.info(
         f'领取耐力 : mobile:{mobile} :  response code : {response.status_code}, response body : {response.text}')
+
+# get reservation result
+def getReservationResult(mobile: str):
+    """
+    Get reservation
+    """
+    url = 'https://app.moutai519.com.cn/xhr/front/mall/reservation/list/pageOne/queryV2'
+    #https://static.moutai519.com.cn/mt-backend/xhr/front/mall/resource/get'
+    headers.pop('userId')
+    headers.pop('MT-Lat')
+    headers.pop('MT-K')
+    headers.pop('MT-Lng')
+    cookies = {
+        'MT-Device-ID-Wap': headers['MT-Device-ID'],
+        'MT-Token-Wap': headers['MT-Token'],
+        'YX_SUPPORT_WEBP': '1',
+    }
+
+    response = requests.get(url=url, cookies=cookies,
+                             headers=headers, json={})
+    if response.status_code == 200:
+        return json.loads(response.text)
+    else:
+        return False
+
+    # response.json().get('message') if '无法领取奖励' in response.text else "领取奖励成功"
+    #logging.info(
+    #S    f' : mobile:{mobile} :  response code : {response.status_code}, response body : {response.text}')
+ 

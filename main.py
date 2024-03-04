@@ -8,7 +8,7 @@ import process
 import privateCrypt
 
 '''
-cron: 5 9 * * *
+cron: 55 9 * * *
 new Env("i茅台预约")
 '''
 
